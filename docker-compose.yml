@@ -1,0 +1,38 @@
+services:
+
+  php:
+    build: .
+    volumes:
+      - ./ass1/public:/app
+      - ./ass1/public/images:/app/images
+    working_dir: /app
+    command: php -d upload_max_filesize=20M -d post_max_size=20M -S 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mysql
+    environment:              
+      DB_HOST: mysql
+      DB_NAME: Assignments
+      DB_USER: user
+      DB_PASS: password
+
+  mysql:
+    image: mariadb:latest
+    restart: always
+    environment:             
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: Assignments
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+
+  adminer:
+    image: adminer:latest
+    restart: always
+    ports:
+      - "8080:8080"
+
