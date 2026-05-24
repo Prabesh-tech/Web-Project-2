@@ -2,13 +2,30 @@
 session_start();
 require_once __DIR__ . '/includes/DbConnection.php';
 
-$categoryId = $_GET['id'] ?? 0;
-$stmt = $pdo->prepare("SELECT name FROM categories WHERE id = ?");
+$categoryId = intval($_GET['id'] ?? 0);
+$stmt = $pdo->prepare("SELECT name, description, image FROM categories WHERE id = ?");
 $stmt->execute([$categoryId]);
-$category = $stmt->fetchColumn();
+$category = $stmt->fetch(PDO::FETCH_ASSOC);
+
+$categoryName = $category['name'] ?? 'Category';
+$categoryDescription = $category['description'] ?? '';
+$categoryImage = '';
+if (!empty($category['image'])) {
+    $imageFile = $category['image'];
+    if (strpos($imageFile, 'assets/') === 0) {
+        $categoryImage = $imageFile;
+    } elseif (file_exists(__DIR__ . '/assets/images/' . $imageFile)) {
+        $categoryImage = 'assets/images/' . htmlspecialchars($imageFile);
+    } elseif (file_exists(__DIR__ . '/images/auctions/' . $imageFile)) {
+        $categoryImage = 'images/auctions/' . htmlspecialchars($imageFile);
+    }
+}
+if ($categoryImage === '') {
+    $categoryImage = 'assets/images/default-car.jpg';
+}
 
 $auctions = [];
-if ($categoryId) {
+if ($categoryId && $categoryName !== 'Category') {
     $stmt = $pdo->prepare("SELECT * FROM auction WHERE categoryId = ?");
     $stmt->execute([$categoryId]);
     $auctions = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -16,9 +33,23 @@ if ($categoryId) {
 ?>
 <!DOCTYPE html>
 <html>
-<head><title><?= htmlspecialchars($category) ?> Cars</title></head>
+<head>
+    <meta charset="UTF-8">
+    <title><?= htmlspecialchars($categoryName) ?> Cars</title>
+    <link rel="stylesheet" href="assets/carbuy.css">
+</head>
 <body>
-<h1><?= htmlspecialchars($category) ?> Cars</h1>
+<div class="category-header">
+    <div class="category-image-wrap">
+        <img src="<?= $categoryImage ?>" alt="<?= htmlspecialchars($categoryName) ?>" class="category-image">
+    </div>
+    <div class="category-text">
+        <h1><?= htmlspecialchars($categoryName) ?> Cars</h1>
+        <?php if ($categoryDescription !== ''): ?>
+            <p><?= htmlspecialchars($categoryDescription) ?></p>
+        <?php endif; ?>
+    </div>
+</div>
 <?php foreach ($auctions as $a): ?>
     <div>
         <h3><?= htmlspecialchars($a['title']) ?></h3>

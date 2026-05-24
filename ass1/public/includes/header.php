@@ -51,9 +51,16 @@ if (isset($_SESSION['user']) && !empty($_SESSION['user']['isAdmin'])) {
         <!-- LOGO -->
         <a href="index.php" class="logo">CARBUY</a>
 
-        <!-- PROMINENT ADD AUCTION BUTTON (visible to normal users only) -->
-        <?php if (isset($_SESSION['user']) && !empty($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'User'): ?>
-            <a href="addAuction.php" class="btn-addauction">Add Auction</a>
+        <!-- PROMINENT ADD AUCTION BUTTON (normal users only; admins see dashboard) -->
+        <?php if (isset($_SESSION['user'])):
+            $isAdminUser = (!empty($_SESSION['user']['isAdmin']) && in_array(intval($_SESSION['user']['isAdmin']), [1,2], true)) ||
+                           (!empty($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'Super Admin');
+        ?>
+            <?php if ($isAdminUser): ?>
+                <a href="admin.php" class="btn-addauction admin-dashboard">Admin Dashboard</a>
+            <?php else: ?>
+                <a href="addAuction.php" class="btn-addauction">Add Auction</a>
+            <?php endif; ?>
         <?php endif; ?>
 
         <!-- NAV -->

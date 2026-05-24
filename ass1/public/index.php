@@ -73,10 +73,13 @@ $auctions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <!--  Keep Sign up icon and text -->
         <div class="user-area">
-                <?php if (!empty($_SESSION['user']['username'])): ?>
-                    <?php if ((!empty($_SESSION['user']['isAdmin']) && in_array(intval($_SESSION['user']['isAdmin']), [1,2], true)) || (!empty($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'Super Admin')): ?>
-                        <a href="admin.php" class="btn-addauction">Add Auction</a>
-                    <?php elseif (!empty($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'User'): ?>
+                <?php if (!empty($_SESSION['user']['username'])):
+                    $isAdminUser = (!empty($_SESSION['user']['isAdmin']) && in_array(intval($_SESSION['user']['isAdmin']), [1,2], true)) ||
+                                   (!empty($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'Super Admin');
+                ?>
+                    <?php if ($isAdminUser): ?>
+                        <a href="admin.php" class="btn-addauction admin-dashboard">Admin Dashboard</a>
+                    <?php else: ?>
                         <a href="addAuction.php" class="btn-addauction">Add Auction</a>
                     <?php endif; ?>
                     <span class="username">Hi, <?= htmlspecialchars($_SESSION['user']['username']) ?></span>
@@ -99,6 +102,12 @@ $auctions = $stmt->fetchAll(PDO::FETCH_ASSOC);
         // Fetch top brands from database
         $topBrandsStmt = $pdo->query('SELECT name FROM brands WHERE isTopBrand = 1 ORDER BY name ASC');
         $topBrands = $topBrandsStmt->fetchAll(PDO::FETCH_COLUMN);
+        foreach ($topBrands as &$topBrand) {
+            if ($topBrand === 'Rolls Royce') {
+                $topBrand = 'Rolls Royace';
+            }
+        }
+        unset($topBrand);
         
         // Fetch more brands from database
         $moreBrandsStmt = $pdo->query('SELECT name FROM brands WHERE isTopBrand = 0 ORDER BY name ASC');
@@ -169,11 +178,15 @@ $auctions = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <?php
                                 $auctionImage = '';
                                 if (!empty($a['image'])) {
-                                    $safeImage = htmlspecialchars($a['image']);
-                                    if (file_exists(__DIR__ . '/images/auctions/' . $a['image'])) {
-                                        $auctionImage = 'images/auctions/' . $safeImage;
-                                    } elseif (file_exists(__DIR__ . '/assets/images/' . $a['image'])) {
-                                        $auctionImage = 'assets/images/' . $safeImage;
+                                    $imagePath = $a['image'];
+                                    if (strpos($imagePath, 'images/auctions/') === 0) {
+                                        if (file_exists(__DIR__ . '/' . $imagePath)) {
+                                            $auctionImage = htmlspecialchars($imagePath);
+                                        }
+                                    } elseif (file_exists(__DIR__ . '/images/auctions/' . $imagePath)) {
+                                        $auctionImage = 'images/auctions/' . htmlspecialchars($imagePath);
+                                    } elseif (file_exists(__DIR__ . '/assets/images/' . $imagePath)) {
+                                        $auctionImage = 'assets/images/' . htmlspecialchars($imagePath);
                                     }
                                 }
                             ?>

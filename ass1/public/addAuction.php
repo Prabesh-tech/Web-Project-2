@@ -42,6 +42,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Please create at least one category before adding an auction.';
     }
 
+    if ($error === '') {
+        $categoryExists = $pdo->prepare("SELECT COUNT(*) FROM categories WHERE id = ?");
+        $categoryExists->execute([$categoryId]);
+        if ((int)$categoryExists->fetchColumn() === 0) {
+            $error = 'Selected category does not exist. Please choose a valid category.';
+        }
+    }
+
     if ($endDate !== '') {
         $date = DateTime::createFromFormat('Y-m-d\TH:i', $endDate);
         if ($date === false) {
@@ -92,9 +100,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_FILES['image']['size']) && $_FILES['image']['size'] > $maxBytes) {
                 $error = 'Uploaded file exceeds maximum allowed size of 20MB.';
             } else {
-                $targetDir = __DIR__ . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'auctions' . DIRECTORY_SEPARATOR;
-                if (!is_dir($targetDir)) {
-                    if (!@mkdir($targetDir, 0755, true) && !is_dir($targetDir)) {
+                $uploadDir = __DIR__ . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'auctions' . DIRECTORY_SEPARATOR;
+                if (!is_dir($uploadDir)) {
+                    $parentDir = dirname($uploadDir);
+                    if (!is_dir($parentDir) && !@mkdir($parentDir, 0777, true)) {
+                        $error = "Unable to create upload folder.";
+                    } elseif (!@mkdir($uploadDir, 0777, true) && !is_dir($uploadDir)) {
                         $error = "Unable to create upload folder.";
                     }
                 }
@@ -109,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $base = pathinfo($originalName, PATHINFO_FILENAME);
                         $base = preg_replace('/[^A-Za-z0-9_-]/', '_', $base);
                         $imageName = time() . '_' . $base . '.' . $ext;
-                        $targetFile = $targetDir . $imageName;
+                        $targetFile = $uploadDir . $imageName;
                         if (!@move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
                             $error = "Failed to move uploaded image. Please try again.";
                             $imageName = '';

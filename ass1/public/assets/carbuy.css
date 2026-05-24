@@ -190,15 +190,10 @@ a {
 
 
 
-/* ================= BRAND BAR ================= */
+/* ================= CATEGORY ================= */
 .brand-bar {
-    background: linear-gradient(90deg, #050505 0%, #0d0d0d 50%, #050505 100%);
-    border-bottom: 1px solid rgba(79, 206, 151, 0.1);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    position: sticky;
-    top: 61px;
-    z-index: 9;
+    background: linear-gradient(90deg, #050505 0%, #101010 100%);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 
 .brand-bar-inner {
@@ -206,247 +201,85 @@ a {
     margin: auto;
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 12px;
     align-items: center;
-    padding: 14px 0;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-}
-
-.brand-bar-inner::-webkit-scrollbar {
-    height: 4px;
-}
-
-.brand-bar-inner::-webkit-scrollbar-track {
-    background: rgba(255,255,255,0.02);
-}
-
-.brand-bar-inner::-webkit-scrollbar-thumb {
-    background: rgba(79, 206, 151, 0.3);
-    border-radius: 2px;
-}
-
-.brand-bar-inner::-webkit-scrollbar-thumb:hover {
-    background: rgba(79, 206, 151, 0.5);
+    padding: 16px 0;
 }
 
 .brand-label {
-    font-size: 0.85rem;
+    font-size: 0.92rem;
     color: #8f8f8f;
     text-transform: uppercase;
-    letter-spacing: 0.16em;
-    padding-right: 12px;
-    border-right: 1px solid rgba(79, 206, 151, 0.2);
-    white-space: nowrap;
-    flex-shrink: 0;
+    letter-spacing: 0.18em;
+    padding-right: 10px;
+    border-right: 1px solid rgba(255,255,255,0.08);
 }
 
-/* BRAND CHIP STYLES */
 .brand-chip {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 9px 16px;
+    padding: 10px 18px;
     border-radius: 999px;
-    background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
-    color: #b8b8b8;
-    border: 1px solid rgba(255,255,255,0.06);
-    font-size: 0.92rem;
-    font-weight: 500;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    white-space: nowrap;
-    flex-shrink: 0;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
+    background: #111;
+    color: #ddd;
+    border: 1px solid transparent;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
 }
 
-.brand-chip::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(79, 206, 151, 0.2) 0%, rgba(15, 98, 254, 0.1) 100%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-}
-
-.brand-chip:hover {
-    background: linear-gradient(135deg, #0f62fe 0%, #2f93ff 100%);
-    color: #fff;
-    border-color: rgba(79, 206, 151, 0.3);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(15, 98, 254, 0.3);
-}
-
+.brand-chip:hover,
 .brand-chip.active {
-    background: linear-gradient(135deg, #0f62fe 0%, #2f93ff 100%);
+    background: #0f62fe;
     color: #fff;
-    border-color: rgba(79, 206, 151, 0.5);
-    box-shadow: 0 0 0 2px rgba(15, 98, 254, 0.2), 0 6px 16px rgba(15, 98, 254, 0.25);
-    font-weight: 600;
+    border-color: rgba(15,98,254,0.35);
 }
 
-.brand-chip.active::before {
-    opacity: 1;
-}
-
-/* BRAND MORE DROPDOWN */
 .brand-more {
     position: relative;
     cursor: pointer;
 }
 
 .brand-more::after {
-    content: '▼';
-    margin-left: 6px;
-    font-size: 0.65rem;
-    color: inherit;
-    transition: transform 0.3s ease;
-}
-
-.brand-more:hover::after {
-    transform: scaleY(1.1);
+    content: '\25BE';
+    margin-left: 8px;
+    font-size: 0.8rem;
+    color: #8f8f8f;
 }
 
 .brand-dropdown {
     display: none;
     position: absolute;
-    top: calc(100% + 8px);
+    top: 46px;
     left: 0;
-    min-width: 240px;
-    max-height: 400px;
-    background: linear-gradient(135deg, #111 0%, #0a0a0a 100%);
-    border: 1px solid rgba(79, 206, 151, 0.2);
-    border-radius: 14px;
-    padding: 8px;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.4), 
-                inset 0 1px 0 rgba(255,255,255,0.05);
-    z-index: 30;
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    overflow-y: auto;
-    animation: dropdownSlide 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-@keyframes dropdownSlide {
-    from {
-        opacity: 0;
-        transform: translateY(-8px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.brand-dropdown::-webkit-scrollbar {
-    width: 6px;
-}
-
-.brand-dropdown::-webkit-scrollbar-track {
-    background: rgba(255,255,255,0.02);
-    border-radius: 3px;
-}
-
-.brand-dropdown::-webkit-scrollbar-thumb {
-    background: rgba(79, 206, 151, 0.25);
-    border-radius: 3px;
-}
-
-.brand-dropdown::-webkit-scrollbar-thumb:hover {
-    background: rgba(79, 206, 151, 0.4);
+    min-width: 220px;
+    background: #111;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 10px;
+    box-shadow: 0 18px 55px rgba(0,0,0,0.35);
+    z-index: 20;
 }
 
 .brand-dropdown-item {
-    display: flex;
-    align-items: center;
+    display: inline-flex;
     width: 100%;
-    padding: 10px 12px;
-    margin: 4px 0;
-    border-radius: 10px;
+    justify-content: flex-start;
+    padding: 10px 14px;
+    border-radius: 12px;
     background: transparent;
-    color: #b8b8b8;
-    text-decoration: none;
-    font-size: 0.92rem;
-    transition: all 0.2s ease;
-    position: relative;
+    color: #ddd;
+    transition: background 0.2s ease, color 0.2s ease;
 }
 
-.brand-dropdown-item::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 3px;
-    height: 0;
-    background: linear-gradient(135deg, #4fce97 0%, #0f62fe 100%);
-    border-radius: 2px;
-    transition: height 0.2s ease;
-}
-
-.brand-dropdown-item:hover {
-    background: rgba(79, 206, 151, 0.1);
-    color: #fff;
-    padding-left: 16px;
-}
-
-.brand-dropdown-item:hover::before {
-    height: 18px;
-}
-
+.brand-dropdown-item:hover,
 .brand-dropdown-item.active {
-    background: linear-gradient(135deg, rgba(79, 206, 151, 0.15) 0%, rgba(15, 98, 254, 0.1) 100%);
-    color: #4fce97;
-    font-weight: 600;
-    border: 1px solid rgba(79, 206, 151, 0.2);
-}
-
-.brand-dropdown-item.active::before {
-    height: 20px;
+    background: #0f62fe;
+    color: #fff;
 }
 
 .brand-more:hover .brand-dropdown {
     display: block;
-}
-
-/* RESPONSIVE BRAND BAR */
-@media (max-width: 768px) {
-    .brand-bar-inner {
-        gap: 8px;
-        padding: 12px 0;
-    }
-    
-    .brand-chip {
-        padding: 8px 14px;
-        font-size: 0.88rem;
-    }
-    
-    .brand-label {
-        font-size: 0.75rem;
-        letter-spacing: 0.12em;
-        padding-right: 8px;
-    }
-    
-    .brand-dropdown {
-        min-width: 200px;
-    }
-}
-
-@media (max-width: 480px) {
-    .brand-label {
-        display: none;
-    }
-    
-    .brand-bar-inner {
-        gap: 6px;
-    }
-    
-    .brand-chip {
-        padding: 7px 12px;
-        font-size: 0.85rem;
-    }
 }
 
 
@@ -989,7 +822,7 @@ a {
 }
 
 .admin-card {
-    width: min(720px, 100%);
+    width: min(1200px, 100%);
     /* make room for a floating back link */
     position: relative;
     padding: 56px 40px 40px;
@@ -1198,25 +1031,43 @@ a {
     gap: 4px;
 }
 
-.btn-delete {
-    background: linear-gradient(135deg,#ff5347 0%,#ff2a1a 100%);
-    color: #fff;
+.admin-card-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+    align-items: center;
 }
 
-.btn-delete:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 26px rgba(255,42,26,0.14);
+.admin-card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: flex-end;
 }
 
-.inline-form {
-    display: inline-block;
-    margin-left: 8px;
+.admin-card-header .admin-back {
+    position: relative;
+    top: auto;
+    left: auto;
+    margin: 0;
+}
+
+.admin-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 10px;
 }
 
 .admin-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 24px;
+    min-width: 1000px;
+    margin-top: 0;
     margin-bottom: 24px;
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -1227,6 +1078,7 @@ a {
     border: 1px solid rgba(255, 255, 255, 0.08);
     color: #e1e1e1;
     text-align: left;
+    vertical-align: middle;
 }
 
 .admin-table th {
@@ -1250,6 +1102,42 @@ a {
     align-items: center;
     gap: 8px;
     flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.admin-table th:nth-child(1),
+.admin-table td:nth-child(1) {
+    width: 54px;
+}
+
+.admin-table th:nth-child(6),
+.admin-table td:nth-child(6) {
+    min-width: 130px;
+}
+
+.admin-table th:nth-child(7),
+.admin-table td:nth-child(7) {
+    min-width: 170px;
+}
+
+.admin-table th:last-child,
+.admin-table td:last-child {
+    min-width: 180px;
+}
+
+.btn-delete {
+    background: linear-gradient(135deg,#ff5347 0%,#ff2a1a 100%);
+    color: #fff;
+}
+
+.btn-delete:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px rgba(255,42,26,0.14);
+}
+
+.inline-form {
+    display: inline-block;
+    margin-left: 8px;
 }
 
 .admin-back {
@@ -1516,243 +1404,6 @@ a {
     text-decoration: none;
     transition: transform 0.2s, box-shadow 0.2s;
     box-shadow: 0 4px 15px rgba(15, 98, 254, 0.3);
-}
-
-/* ================= MANAGE BRANDS PAGE ================= */
-.admin-container {
-    max-width: 980px;
-    margin: 0 auto;
-    padding: 36px 20px 60px;
-    min-height: 100vh;
-    background: #090909;
-}
-
-.admin-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 18px;
-    margin-bottom: 32px;
-}
-
-.admin-header h1 {
-    margin: 0;
-    font-size: 2rem;
-    color: #ffffff;
-    letter-spacing: -0.02em;
-}
-
-.admin-form {
-    background: #111;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 18px;
-    padding: 28px;
-    margin-bottom: 32px;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
-}
-
-.admin-form h2 {
-    margin-top: 0;
-    margin-bottom: 20px;
-    color: #f5f5f5;
-    font-size: 1.4rem;
-}
-
-.form-group {
-    margin-bottom: 18px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    color: #d2d2d2;
-    font-weight: 600;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 14px 16px;
-    background: #161616;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    color: #f7f7f7;
-    font-size: 0.95rem;
-    transition: border-color 0.25s ease, background 0.25s ease;
-}
-
-.form-group input:focus {
-    outline: none;
-    border-color: #0f62fe;
-    background: #1e1e1e;
-}
-
-.checkbox-group {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 22px;
-}
-
-.checkbox-group input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    accent-color: #0f62fe;
-}
-
-.checkbox-group label {
-    color: #d2d2d2;
-    font-size: 0.95rem;
-    cursor: pointer;
-}
-
-.btn-add {
-    background: linear-gradient(135deg, #27ae60 0%, #1c8d42 100%);
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    padding: 12px 22px;
-    font-size: 0.95rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
-}
-
-.btn-add:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(39, 174, 96, 0.24);
-    background: linear-gradient(135deg, #1c8d42 0%, #167036 100%);
-}
-
-.management-table {
-    width: 100%;
-    border-collapse: collapse;
-    overflow: hidden;
-    border-radius: 18px;
-    background: #111;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.management-table th,
-.management-table td {
-    padding: 16px 18px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    color: #d8d8d8;
-    text-align: left;
-}
-
-.management-table th {
-    background: rgba(79, 206, 151, 0.08);
-    color: #e7f9f0;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-size: 0.85rem;
-}
-
-.management-table tbody tr {
-    background: rgba(255, 255, 255, 0.02);
-    transition: background 0.2s ease;
-}
-
-.management-table tbody tr:hover {
-    background: rgba(79, 206, 151, 0.08);
-}
-
-.management-table td:first-child {
-    color: #fff;
-    font-weight: 600;
-}
-
-.badge-top,
-.badge-more {
-    display: inline-flex;
-    padding: 7px 12px;
-    border-radius: 999px;
-    font-size: 0.82rem;
-    font-weight: 700;
-}
-
-.badge-top {
-    background: linear-gradient(135deg, #f39c12 0%, #d35400 100%);
-    color: #fff;
-}
-
-.badge-more {
-    background: rgba(255, 255, 255, 0.06);
-    color: #cbd5dc;
-}
-
-.btn-toggle {
-    background: rgba(15, 98, 254, 0.16);
-    color: #81d4ff;
-    border: 1px solid rgba(15, 98, 254, 0.3);
-    border-radius: 10px;
-    padding: 10px 14px;
-    font-size: 0.88rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
-}
-
-.btn-toggle:hover {
-    background: rgba(15, 98, 254, 0.26);
-    transform: translateY(-1px);
-    border-color: rgba(15, 98, 254, 0.55);
-}
-
-.no-items {
-    color: #9aa49a;
-    text-align: center;
-    padding: 26px 0;
-}
-
-@media (max-width: 820px) {
-    .admin-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    .management-table th,
-    .management-table td {
-        padding: 14px 12px;
-    }
-}
-
-@media (max-width: 620px) {
-    .admin-container {
-        padding: 24px 16px 48px;
-    }
-    .admin-header h1 {
-        font-size: 1.6rem;
-    }
-    .management-table {
-        display: block;
-        overflow-x: auto;
-    }
-    .management-table thead {
-        display: none;
-    }
-    .management-table tbody tr {
-        display: block;
-        margin-bottom: 16px;
-        border-radius: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-    .management-table td {
-        display: flex;
-        justify-content: space-between;
-        gap: 12px;
-    }
-    .management-table td:first-child {
-        color: #d8d8d8;
-    }
-    .management-table td::before {
-        content: attr(data-label);
-        display: block;
-        flex-basis: 100%;
-        color: #81d4ff;
-        font-size: 0.8rem;
-        margin-bottom: 4px;
-    }
 }
 
 .btn-login-prompt:hover {

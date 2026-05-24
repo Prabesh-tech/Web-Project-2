@@ -38,6 +38,9 @@ try {
 
 if (!$hasAuction || !$hasBrands) {
     $sqlFile = __DIR__ . '/../Data.sql';
+    if (!file_exists($sqlFile)) {
+        $sqlFile = __DIR__ . '/../Database.sql';
+    }
     if (file_exists($sqlFile) && is_readable($sqlFile)) {
         $sql = file_get_contents($sqlFile);
         // Split statements on semicolon followed by a newline to avoid breaking definitions

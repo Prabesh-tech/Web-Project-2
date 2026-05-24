@@ -189,11 +189,15 @@ try {
 	<?php
 	    $auctionImage = '';
 	    if (!empty($auction['image'])) {
-	        $safeImage = htmlspecialchars($auction['image']);
-	        if (file_exists(__DIR__ . '/images/auctions/' . $auction['image'])) {
-	            $auctionImage = 'images/auctions/' . $safeImage;
-	        } elseif (file_exists(__DIR__ . '/assets/images/' . $auction['image'])) {
-	            $auctionImage = 'assets/images/' . $safeImage;
+	        $imagePath = $auction['image'];
+	        if (strpos($imagePath, 'images/auctions/') === 0) {
+	            if (file_exists(__DIR__ . '/' . $imagePath)) {
+	                $auctionImage = $imagePath;
+	            }
+	        } elseif (file_exists(__DIR__ . '/images/auctions/' . $imagePath)) {
+	            $auctionImage = 'images/auctions/' . htmlspecialchars($imagePath);
+	        } elseif (file_exists(__DIR__ . '/assets/images/' . $imagePath)) {
+	            $auctionImage = 'assets/images/' . htmlspecialchars($imagePath);
 	        }
 	    }
 	?>

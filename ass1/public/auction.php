@@ -147,9 +147,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'add
                 $addAuctionError = "Invalid upload file. Please try again.";
             } else {
                 $targetDir = __DIR__ . "/images/auctions/";
-                if (!is_dir($targetDir) && !mkdir($targetDir, 0755, true)) {
-                    $addAuctionError = "Unable to create upload folder.";
-                } else {
+                if (!is_dir($targetDir)) {
+                    $parentDir = dirname($targetDir);
+                    if (!is_dir($parentDir) && !mkdir($parentDir, 0777, true)) {
+                        $addAuctionError = "Unable to create upload folder.";
+                    } elseif (!mkdir($targetDir, 0777, true) && !is_dir($targetDir)) {
+                        $addAuctionError = "Unable to create upload folder.";
+                    }
+                }
+                if ($addAuctionError === '') {
                     $imageName = time() . "_" . basename($_FILES['image']['name']);
                     $targetFile = $targetDir . $imageName;
                     if (!move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {

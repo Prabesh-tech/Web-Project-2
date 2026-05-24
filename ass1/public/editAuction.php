@@ -63,9 +63,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = "Invalid upload file. Please try again.";
         } else {
             $targetDir = __DIR__ . "/images/auctions/";
-            if (!is_dir($targetDir) && !mkdir($targetDir, 0755, true)) {
-                $error = "Unable to create upload folder.";
-            } else {
+            if (!is_dir($targetDir)) {
+                $parentDir = dirname($targetDir);
+                if (!is_dir($parentDir) && !mkdir($parentDir, 0777, true)) {
+                    $error = "Unable to create upload folder.";
+                } elseif (!mkdir($targetDir, 0777, true) && !is_dir($targetDir)) {
+                    $error = "Unable to create upload folder.";
+                }
+            }
+            if ($error === '') {
                 $imageName = time() . "_" . basename($_FILES['image']['name']);
                 $targetFile = $targetDir . $imageName;
                 if (!move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
@@ -146,9 +152,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="file" name="image" accept="image/*">
             <div class="field-note">Maximum upload size: 20MB</div>
             <?php if (!empty($auction['image'])): ?>
+                <?php
+                    $currentImageUrl = $auction['image'];
+                    if (strpos($currentImageUrl, 'images/auctions/') !== 0) {
+                        $currentImageUrl = 'images/auctions/' . $currentImageUrl;
+                    }
+                ?>
                 <p>Current:
-                    <a href="images/auctions/<?= htmlspecialchars($auction['image']) ?>" target="_blank" rel="noopener noreferrer">
-                        <img src="images/auctions/<?= htmlspecialchars($auction['image']) ?>" width="120" alt="Current auction image">
+                    <a href="<?= htmlspecialchars($currentImageUrl) ?>" target="_blank" rel="noopener noreferrer">
+                        <img src="<?= htmlspecialchars($currentImageUrl) ?>" width="120" alt="Current auction image">
                     </a>
                 </p>
             <?php endif; ?>

@@ -79,13 +79,20 @@ try {
         }
 
         if (!empty($a['image'])) {
-            if (file_exists(__DIR__ . '/images/auctions/' . $a['image'])) {
-                // keep path as-is for client-side rendering
-            } elseif (file_exists(__DIR__ . '/assets/images/' . $a['image'])) {
-                $a['image'] = 'assets/images/' . $a['image'];
+            $imagePath = $a['image'];
+            if (strpos($imagePath, 'images/auctions/') === 0) {
+                if (!file_exists(__DIR__ . '/' . $imagePath)) {
+                    $imagePath = null;
+                }
+            } elseif (file_exists(__DIR__ . '/images/auctions/' . $imagePath)) {
+                $imagePath = 'images/auctions/' . $imagePath;
+            } elseif (file_exists(__DIR__ . '/assets/images/' . $imagePath)) {
+                $imagePath = 'assets/images/' . $imagePath;
             } else {
-                $a['image'] = null;
+                $imagePath = null;
             }
+
+            $a['image'] = $imagePath;
         }
     }
 

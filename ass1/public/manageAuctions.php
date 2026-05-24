@@ -37,16 +37,20 @@ $auctions = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="auth-error">An error occurred.</div>
         <?php endif; ?>
 
-        <div style="margin-bottom:12px">
-            <a href="addAuction.php" class="btn-admin">+ Add Auction</a>
-            <a href="admin.php" class="admin-back">← Back to Dashboard</a>
+        <div class="admin-card-header">
+            <div class="admin-card-actions">
+                <a href="addAuction.php" class="btn-admin">+ Add Auction</a>
+                <a href="admin.php" class="admin-back">← Back to Dashboard</a>
+            </div>
         </div>
 
         <?php if (empty($auctions)): ?>
+
             <div class="no-results">No auctions found.</div>
         <?php else: ?>
-            <table class="admin-table" style="width:100%;border-collapse:collapse">
-                <thead>
+            <div class="admin-table-wrapper">
+                <table class="admin-table">
+                    <thead>
                     <tr>
                         <th>ID</th>
                         <th>Title</th>
@@ -85,7 +89,8 @@ $auctions = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
-            </table>
+                </table>
+            </div>
         <?php endif; ?>
     </div>
 </div>

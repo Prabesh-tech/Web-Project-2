@@ -1,10 +1,11 @@
+version: '3.9'
+
 services:
 
   php:
     build: .
     volumes:
       - ./ass1/public:/app
-      - ./ass1/public/images:/app/images
     working_dir: /app
     command: php -d upload_max_filesize=20M -d post_max_size=20M -S 0.0.0.0:8000
     ports:
