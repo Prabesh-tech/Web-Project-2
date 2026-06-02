@@ -1,40 +1,48 @@
 <?php
+/**
+ * Add Category Page - Controller
+ * Handles form for adding new job categories
+ */
+
 session_start();
 require_once __DIR__ . '/includes/DbConnection.php';
+require_once __DIR__ . '/includes/categorycontroller.php';
 
-if (empty($_SESSION['user']) || !in_array(intval($_SESSION['user']['isAdmin'] ?? 0), [1,2], true)) {
+// Check admin access
+if (empty($_SESSION['user']) || !in_array(intval($_SESSION['user']['isAdmin'] ?? 0), [1, 2], true)) {
     header('Location: login.php');
     exit;
 }
 
-$error = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = trim($_POST['name']);
-    if ($name !== '') {
-        $check = $pdo->prepare("SELECT id FROM categories WHERE name = ?");
-        $check->execute([$name]);
-        if ($check->rowCount() > 0) {
-            $error = "Category already exists. Please use the existing category.";
-        } else {
-            $stmt = $pdo->prepare("INSERT INTO categories (name) VALUES (?)");
-            $stmt->execute([$name]);
-            header('Location: adminCategories.php');
+try {
+    $error = '';
+    $success = false;
+
+    // Initialize controller
+    $categoryController = new CategoryController($pdo);
+
+    // Handle form submission
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $name = trim($_POST['name'] ?? '');
+        $description = trim($_POST['description'] ?? '');
+        $image = trim($_POST['image'] ?? '');
+
+        try {
+            $categoryController->createCategory($name, $description, $image);
+            header('Location: adminCategories.php?status=added');
             exit;
+        } catch (Exception $e) {
+            $error = $e->getMessage();
         }
-    } else {
-        $error = "Category name required.";
     }
-} 
-?>
-<!DOCTYPE html>
-<html>
-<head><title>Add Category</title></head>
-<body>
-<h1>Add Category</h1>
-<?php if ($error): ?><p style="color:red"><?= $error ?></p><?php endif; ?>
-<form method="POST">
-    <input type="text" name="name" placeholder="Category name">
-    <button type="submit">Add</button>
-</form>
-</body>
-</html>
+
+    // Set page title
+    $pageTitle = 'Add New Category - Prabesh Job';
+
+    // Include layout with view
+    include 'layouts/layout-form.php';
+
+} catch (Exception $e) {
+    die("<h2>Error</h2><p>" . htmlspecialchars($e->getMessage()) . "</p>");
+}
+

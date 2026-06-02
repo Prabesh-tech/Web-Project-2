@@ -1,157 +1,75 @@
 <?php
+/**
+ * Admin Manage Categories Page - Controller
+ * Handles listing, adding, editing, and deleting job categories
+ */
+
 session_start();
 require_once __DIR__ . '/includes/DbConnection.php';
+require_once __DIR__ . '/includes/categorycontroller.php';
 
-//  Only allow admins or super admin
+// Check admin access
 if (!isset($_SESSION['user']['id']) || 
-   ($_SESSION['user']['role'] !== 'Admin' && $_SESSION['user']['role'] !== 'Super Admin')) {
+   !in_array(intval($_SESSION['user']['isAdmin'] ?? 0), [1, 2], true)) {
     header("Location: login.php");
     exit;
 }
 
-$error = '';
-$success = false;
-
-//  Handle Add Category
-if (isset($_POST['action']) && $_POST['action'] === 'add') {
-    $categoryName = trim($_POST['categoryName'] ?? '');
-    $description = trim($_POST['description'] ?? '');
-
-    if ($categoryName === '') {
-        $error = 'Category name is required.';
-    } else {
-        try {
-            $check = $pdo->prepare('SELECT id FROM categories WHERE name = ?');
-            $check->execute([$categoryName]);
-
-            if ($check->rowCount() > 0) {
-                $error = 'This category already exists - cannot add duplicates.';
-            } else {
-                $stmt = $pdo->prepare(
-                    'INSERT INTO categories (name, description) VALUES (?, ?)'
-                );
-                $stmt->execute([$categoryName, $description]);
-                $success = true;
-            }
-        } catch (PDOException $e) {
-            $error = "DB Error: " . $e->getMessage();
-        }
-    }
-}
-
-//  Handle Delete Category
-if (isset($_POST['action']) && $_POST['action'] === 'delete') {
-    $id = intval($_POST['id']);
-    try {
-        $stmt = $pdo->prepare('DELETE FROM categories WHERE id = ?');
-        $stmt->execute([$id]);
-        $success = true;
-    } catch (PDOException $e) {
-        $error = "DB Error: " . $e->getMessage();
-    }
-}
-
-//  Handle Edit Category
-if (isset($_POST['action']) && $_POST['action'] === 'edit') {
-    $id = intval($_POST['id']);
-    $categoryName = trim($_POST['categoryName'] ?? '');
-    $description = trim($_POST['description'] ?? '');
-
-    if ($categoryName === '') {
-        $error = 'Category name is required.';
-    } else {
-        try {
-            $check = $pdo->prepare('SELECT id FROM categories WHERE name = ? AND id != ?');
-            $check->execute([$categoryName, $id]);
-            if ($check->rowCount() > 0) {
-                $error = 'This category already exists. Please use the existing category.';
-            } else {
-                $stmt = $pdo->prepare('UPDATE categories SET name = ?, description = ? WHERE id = ?');
-                $stmt->execute([$categoryName, $description, $id]);
-                $success = true;
-            }
-        } catch (PDOException $e) {
-            $error = "DB Error: " . $e->getMessage();
-        }
-    }
-}
-
-//  Fetch all categories
-$categories = [];
 try {
-    $stmt = $pdo->query('SELECT id, name, description FROM categories ORDER BY id DESC');
-    $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    $error = "DB Error: " . $e->getMessage();
+    $error = '';
+    $success = false;
+
+    // Initialize controller
+    $categoryController = new CategoryController($pdo);
+
+    // Handle Delete Category
+    if (isset($_POST['action']) && $_POST['action'] === 'delete') {
+        $id = intval($_POST['id'] ?? 0);
+        try {
+            $categoryController->deleteCategory($id);
+            $success = true;
+        } catch (Exception $e) {
+            $error = $e->getMessage();
+        }
+    }
+
+    // Fetch all categories with job counts
+    $categories = $categoryController->getAllCategories();
+    
+    // Add job counts to categories
+    foreach ($categories as &$cat) {
+        $stmt = $pdo->prepare('SELECT COUNT(*) as count FROM jobs WHERE categoryId = ?');
+        $stmt->execute([$cat['id']]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $cat['job_count'] = $result['count'] ?? 0;
+    }
+
+    // Get total category count
+    $categoryCount = $categoryController->getCategoryCount();
+
+    // Check for success message from URL
+    if (isset($_GET['status']) && $_GET['status'] === 'added') {
+        $success = true;
+    }
+
+    // Set page data
+    $pageTitle = 'Manage Categories - Prabesh Job';
+    $breadcrumbs = [
+        'Home' => 'index.php',
+        'Admin' => 'admin.php',
+        'Categories' => 'adminCategories.php',
+    ];
+
+    // Include header
+    require_once 'includes/header.php';
+
+    // Include view
+    require_once 'adminCategories.html.php';
+
+    // Include footer
+    require_once 'includes/footer.php';
+
+} catch (Exception $e) {
+    die("<h2>Error</h2><p>" . htmlspecialchars($e->getMessage()) . "</p>");
 }
 
-$username = htmlspecialchars($_SESSION['user']['username']);
-$role = $_SESSION['user']['role'] ?? 'User';
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Manage Categories</title>
-    <link rel="stylesheet" href="assets/style.css">
-</head>
-<body>
-<div class="admin-page">
-    <div class="admin-card">
-        <h2>Welcome, <?= $username ?> (<?= $role ?>)</h2>
-        <h3>Add Job Category</h3>
-
-        <?php if ($success): ?>
-            <div class="auth-success">✅ Action completed successfully!</div>
-        <?php endif; ?>
-
-        <?php if ($error): ?>
-            <div class="auth-error">⚠️ <?= htmlspecialchars($error) ?></div>
-        <?php endif; ?>
-
-        <!-- Add Category Form -->
-        <form method="POST" class="admin-form">
-            <input type="hidden" name="action" value="add">
-            <input type="text" name="categoryName" placeholder="Category Name" required>
-            <input type="text" name="description" placeholder="Description (optional)">
-            <button type="submit" class="btn-admin">Add Category</button>
-        </form>
-
-        <h3>Existing Categories</h3>
-        <?php if (!empty($categories)): ?>
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Category Name</th>
-                        <th>Description</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($categories as $cat): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($cat['id']) ?></td>
-                            <td><?= htmlspecialchars($cat['name']) ?></td>
-                            <td><?= htmlspecialchars($cat['description']) ?></td>
-                            <td class="admin-table-actions">
-                                <a href="editCategory.php?id=<?= $cat['id'] ?>" class="btn-admin btn-small">✏️ Edit</a>
-                                <form method="POST" onsubmit="return confirm('Delete this category?');" class="inline-form">
-                                    <input type="hidden" name="action" value="delete">
-                                    <input type="hidden" name="id" value="<?= $cat['id'] ?>">
-                                    <button type="submit" class="btn-admin btn-small btn-delete">🗑 Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php else: ?>
-            <p>No categories found.</p>
-        <?php endif; ?>
-
-        <a href="admin.php" class="admin-back">← Back to Dashboard</a>
-    </div>
-</div>
-</body>
-</html>

@@ -1,61 +1,49 @@
 <?php
+/**
+ * Category Detail Page - Controller
+ * Handles displaying a single category with its jobs
+ */
+
 session_start();
 require_once __DIR__ . '/includes/DbConnection.php';
+require_once __DIR__ . '/includes/categorycontroller.php';
 
-$categoryId = intval($_GET['id'] ?? 0);
-$stmt = $pdo->prepare("SELECT name, description, image FROM categories WHERE id = ?");
-$stmt->execute([$categoryId]);
-$category = $stmt->fetch(PDO::FETCH_ASSOC);
+try {
+    // Initialize controller
+    $categoryController = new CategoryController($pdo);
 
-$categoryName = $category['name'] ?? 'Category';
-$categoryDescription = $category['description'] ?? '';
-$categoryImage = '';
-if (!empty($category['image'])) {
-    $imageFile = $category['image'];
-    if (strpos($imageFile, 'assets/') === 0) {
-        $categoryImage = $imageFile;
-    } elseif (file_exists(__DIR__ . '/assets/images/' . $imageFile)) {
-        $categoryImage = 'assets/images/' . htmlspecialchars($imageFile);
-    } elseif (file_exists(__DIR__ . '/images/auctions/' . $imageFile)) {
-        $categoryImage = 'images/auctions/' . htmlspecialchars($imageFile);
+    // Get category ID from URL
+    $categoryId = intval($_GET['id'] ?? 0);
+    
+    if ($categoryId <= 0) {
+        throw new Exception("Invalid category ID");
     }
-}
-if ($categoryImage === '') {
-    $categoryImage = 'assets/images/image1.jpg';
-}
 
-$auctions = [];
-if ($categoryId && $categoryName !== 'Category') {
-    $stmt = $pdo->prepare("SELECT * FROM jobs WHERE categoryId = ?");
-    $stmt->execute([$categoryId]);
-    $auctions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Fetch category
+    $category = $categoryController->getCategoryById($categoryId);
+    if (!$category) {
+        throw new Exception("Category not found");
+    }
+
+    // Get category image path
+    $categoryImage = $categoryController->getCategoryImagePath($category);
+
+    // Fetch jobs in this category
+    $jobs = $categoryController->getJobsByCategory($categoryId);
+
+    // Set page title
+    $pageTitle = htmlspecialchars($category['name']) . ' Jobs - Prabesh Job';
+
+    // Include header
+    require_once 'includes/header.php';
+
+    // Include view
+    require_once 'category.html.php';
+
+    // Include footer
+    require_once 'includes/footer.php';
+
+} catch (Exception $e) {
+    session_destroy();
+    die("<h2>Error</h2><p>" . htmlspecialchars($e->getMessage()) . "</p>");
 }
-?>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title><?= htmlspecialchars($categoryName) ?> Jobs</title>
-    <link rel="stylesheet" href="assets/style.css">
-</head>
-<body>
-<div class="category-header">
-    <div class="category-image-wrap">
-        <img src="<?= $categoryImage ?>" alt="<?= htmlspecialchars($categoryName) ?>" class="category-image">
-    </div>
-    <div class="category-text">
-        <h1><?= htmlspecialchars($categoryName) ?> Jobs</h1>
-        <?php if ($categoryDescription !== ''): ?>
-            <p><?= htmlspecialchars($categoryDescription) ?></p>
-        <?php endif; ?>
-    </div>
-</div>
-<?php foreach ($auctions as $a): ?>
-    <div>
-        <h3><?= htmlspecialchars($a['title']) ?></h3>
-        <p><?= htmlspecialchars($a['description']) ?></p>
-        <a class="more auctionLink" href="jobs/job.php?id=<?= $a['id'] ?>">More</a>
-    </div>
-<?php endforeach; ?>
-</body>
-</html>
