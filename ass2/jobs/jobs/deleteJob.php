@@ -1,32 +1,30 @@
-<?php
+﻿<?php
+/**
+ * Delete Job Handler
+ * Handles job deletion via POST
+ */
+
 session_start();
 require_once __DIR__ . '/../includes/DbConnection.php';
+require_once __DIR__ . '/../includes/jobcontroller.php';
 
-// Admin check: allow admin (1) or super admin (2) or role 'Super Admin'
-$isAdmin = (!empty($_SESSION['user']['isAdmin']) && in_array(intval($_SESSION['user']['isAdmin']), [1,2], true)) ||
-           (!empty($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'Super Admin');
-if (!$isAdmin) {
+// Check authentication
+if (empty($_SESSION['user']) || !in_array(intval($_SESSION['user']['isAdmin'] ?? 0), [1, 2], true)) {
     header('Location: ../login.php');
     exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: manageJobs.php?msg=error');
-    exit;
-}
-
-$id = intval($_POST['id'] ?? 0);
-if ($id <= 0) {
-    header('Location: manageJobs.php?msg=error');
-    exit;
-}
-
 try {
-    $stmt = $pdo->prepare('DELETE FROM jobs WHERE id = ?');
-    $stmt->execute([$id]);
-    header('Location: manageJobs.php?msg=deleted');
-    exit;
-} catch (PDOException $e) {
-    header('Location: manageJobs.php?msg=error');
-    exit;
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete') {
+        $jobId = intval($_POST['id'] ?? 0);
+        $jobController = new JobController($pdo);
+        $jobController->deleteJob($jobId);
+        header('Location: manageJobs.php?status=deleted');
+        exit;
+    }
+
+    header('Location: manageJobs.php?status=error');
+
+} catch (Exception $e) {
+    die("<h2>Error</h2><p>" . htmlspecialchars($e->getMessage()) . "</p>");
 }
