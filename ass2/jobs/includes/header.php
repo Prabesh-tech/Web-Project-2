@@ -21,7 +21,6 @@ try {
 /* NAV ITEMS */
 $navItems = [
     'Job Categories' => '#',
-    'Trainings' => '#',
     'Services' => '#',
     'Blogs' => '#',
 ];
@@ -71,16 +70,7 @@ if (isset($_SESSION['user']) && !empty($_SESSION['user']['isAdmin'])) {
                     <a href="#">Human Resource</a>
                 </div>
             </div>
-            <div class="nav-dropdown">
-                <button class="nav-link nav-dropdown-toggle" type="button">Trainings</button>
-                <div class="nav-dropdown-menu">
-                    <a href="#">Advanced Digital Marketing Training</a>
-                    <a href="#">Job-Oriented Digital Marketing Training</a>
-                    <a href="#">Advanced Accounting Training</a>
-                    <a href="#">Professional HR Training</a>
-                    <a href="#">Job-Oriented Accounting Training</a>
-                </div>
-            </div>
+
             <div class="nav-dropdown">
                 <button class="nav-link nav-dropdown-toggle" type="button">Services</button>
                 <div class="nav-dropdown-menu">
@@ -95,7 +85,7 @@ if (isset($_SESSION['user']) && !empty($_SESSION['user']['isAdmin'])) {
             <a href="#contact" class="nav-link">Contact Us</a>
 
             <?php foreach ($navItems as $label => $path):
-                if (in_array($label,['Job Categories','Trainings','Services','Blogs'], true)) {
+                if (in_array($label,['Job Categories','Services','Blogs'], true)) {
                     continue;
                 }
             ?>
