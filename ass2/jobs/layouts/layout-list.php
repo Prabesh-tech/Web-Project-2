@@ -16,8 +16,10 @@ require_once __DIR__ . '/../includes/DbConnection.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $pageTitle ?? 'Listings - Prabesh Job' ?></title>
-    <link rel="stylesheet" href="assets/style.css">
-    <link rel="stylesheet" href="assets/list-style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/list-style.css">
+    <link rel="stylesheet" href="assets/css/visibility-fix.css">
+    <link rel="stylesheet" href="assets/css/dropdown-add-button.css">
 </head>
 <body>
     <!-- HEADER -->
@@ -81,6 +83,8 @@ require_once __DIR__ . '/../includes/DbConnection.php';
     </main>
 
     <!-- FOOTER -->
-    <?php require_once __DIR__ . '/../includes/footer.php'; ?>
+    <?php if ($showFooter ?? true): ?>
+        <?php require_once __DIR__ . '/../includes/footer.php'; ?>
+    <?php endif; ?>
 </body>
 </html>

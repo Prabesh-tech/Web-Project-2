@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="/var/www/html/phpunit.xml" tests="15" assertions="59" errors="0" failures="0" skipped="0" time="0.941832">
+    <testsuite name="Assignment2 Feature Tests" tests="15" assertions="59" errors="0" failures="0" skipped="0" time="0.941832">
+      <testsuite name="ApplicationRepoTestCase" file="/var/www/html/tests/feature/ApplicationRepoTestCase.php" tests="1" assertions="4" errors="0" failures="0" skipped="0" time="0.148832">
+        <testcase name="testJobRepositoryStyleWorkflowCreatesAndReadsJobs" file="/var/www/html/tests/feature/ApplicationRepoTestCase.php" line="10" class="ApplicationRepoTestCase" classname="ApplicationRepoTestCase" assertions="4" time="0.148832"/>
+      </testsuite>
+      <testsuite name="AuthHelperTestCase" file="/var/www/html/tests/feature/AuthHelperTestCase.php" tests="1" assertions="5" errors="0" failures="0" skipped="0" time="0.200304">
+        <testcase name="testUserAuthenticationSucceedsForValidCredentialsAndFailsOtherwise" file="/var/www/html/tests/feature/AuthHelperTestCase.php" line="10" class="AuthHelperTestCase" classname="AuthHelperTestCase" assertions="5" time="0.200304"/>
+      </testsuite>
+      <testsuite name="CategoryRepoTestCase" file="/var/www/html/tests/feature/CategoryRepoTestCase.php" tests="1" assertions="2" errors="0" failures="0" skipped="0" time="0.011164">
+        <testcase name="testJobsCanBeFilteredByCategory" file="/var/www/html/tests/feature/CategoryRepoTestCase.php" line="10" class="CategoryRepoTestCase" classname="CategoryRepoTestCase" assertions="2" time="0.011164"/>
+      </testsuite>
+      <testsuite name="EnquiryRepoTestCase" file="/var/www/html/tests/feature/EnquiryRepoTestCase.php" tests="1" assertions="3" errors="0" failures="0" skipped="0" time="0.014621">
+        <testcase name="testSearchResultsReturnMatchingJobsForAnEnquiryQuery" file="/var/www/html/tests/feature/EnquiryRepoTestCase.php" line="10" class="EnquiryRepoTestCase" classname="EnquiryRepoTestCase" assertions="3" time="0.014621"/>
+      </testsuite>
+      <testsuite name="JobSiteComprehensiveTestCase" file="/var/www/html/tests/feature/JobSiteComprehensiveTestCase.php" tests="10" assertions="41" errors="0" failures="0" skipped="0" time="0.517167">
+        <testcase name="testUserRegistrationAndAuthenticationFlow" file="/var/www/html/tests/feature/JobSiteComprehensiveTestCase.php" line="31" class="JobSiteComprehensiveTestCase" classname="JobSiteComprehensiveTestCase" assertions="8" time="0.177687"/>
+        <testcase name="testJobCreationAndRetrieval" file="/var/www/html/tests/feature/JobSiteComprehensiveTestCase.php" line="58" class="JobSiteComprehensiveTestCase" classname="JobSiteComprehensiveTestCase" assertions="6" time="0.000849"/>
+        <testcase name="testCategoryManagement" file="/var/www/html/tests/feature/JobSiteComprehensiveTestCase.php" line="95" class="JobSiteComprehensiveTestCase" classname="JobSiteComprehensiveTestCase" assertions="4" time="0.000668"/>
+        <testcase name="testJobFilteringByCategory" file="/var/www/html/tests/feature/JobSiteComprehensiveTestCase.php" line="121" class="JobSiteComprehensiveTestCase" classname="JobSiteComprehensiveTestCase" assertions="2" time="0.000948"/>
+        <testcase name="testContactEnquiryCreation" file="/var/www/html/tests/feature/JobSiteComprehensiveTestCase.php" line="176" class="JobSiteComprehensiveTestCase" classname="JobSiteComprehensiveTestCase" assertions="4" time="0.000609"/>
+        <testcase name="testUserRoleBasedAccessControl" file="/var/www/html/tests/feature/JobSiteComprehensiveTestCase.php" line="209" class="JobSiteComprehensiveTestCase" classname="JobSiteComprehensiveTestCase" assertions="3" time="0.147764"/>
+        <testcase name="testJobArchiveAndDelete" file="/var/www/html/tests/feature/JobSiteComprehensiveTestCase.php" line="230" class="JobSiteComprehensiveTestCase" classname="JobSiteComprehensiveTestCase" assertions="2" time="0.000678"/>
+        <testcase name="testJobSearchByQuery" file="/var/www/html/tests/feature/JobSiteComprehensiveTestCase.php" line="266" class="JobSiteComprehensiveTestCase" classname="JobSiteComprehensiveTestCase" assertions="4" time="0.036742"/>
+        <testcase name="testUserProfileUpdate" file="/var/www/html/tests/feature/JobSiteComprehensiveTestCase.php" line="309" class="JobSiteComprehensiveTestCase" classname="JobSiteComprehensiveTestCase" assertions="4" time="0.147136"/>
+        <testcase name="testJobListingWithPagination" file="/var/www/html/tests/feature/JobSiteComprehensiveTestCase.php" line="337" class="JobSiteComprehensiveTestCase" classname="JobSiteComprehensiveTestCase" assertions="4" time="0.004087"/>
+      </testsuite>
+      <testsuite name="UserRepoTestCase" file="/var/www/html/tests/feature/UserRepoTestCase.php" tests="1" assertions="4" errors="0" failures="0" skipped="0" time="0.049744">
+        <testcase name="testUserRepositoryWorkflowCreatesAndRetrievesUsers" file="/var/www/html/tests/feature/UserRepoTestCase.php" line="10" class="UserRepoTestCase" classname="UserRepoTestCase" assertions="4" time="0.049744"/>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>

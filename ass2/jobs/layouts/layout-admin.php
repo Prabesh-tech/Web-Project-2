@@ -9,7 +9,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Check admin access
-if (empty($_SESSION['user']) || !in_array(intval($_SESSION['user']['isAdmin'] ?? 0), [1, 2], true)) {
+if (empty($_SESSION['user']) || !in_array(intval($_SESSION['user']['role'] ?? 0), [1, 2], true)) {
     header('Location: login.php');
     exit;
 }
@@ -22,8 +22,10 @@ require_once __DIR__ . '/../includes/DbConnection.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $pageTitle ?? 'Admin Dashboard - Prabesh Job' ?></title>
-    <link rel="stylesheet" href="assets/style.css">
-    <link rel="stylesheet" href="assets/admin-style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/admin-style.css">
+    <link rel=\"stylesheet\" href=\"assets/css/visibility-fix.css\">
+    <link rel=\"stylesheet\" href=\"assets/css/dropdown-add-button.css\">
 </head>
 <body class="admin-layout">
     <div class="admin-wrapper">
@@ -78,4 +80,28 @@ require_once __DIR__ . '/../includes/DbConnection.php';
         </main>
     </div>
 </body>
+
+<script>
+function toggleAddDropdown() {
+    const menu = document.getElementById('addDropdownMenu');
+    const btn = document.querySelector('.dropdown-btn');
+    if (menu) {
+        menu.classList.toggle('active');
+        btn?.classList.toggle('active');
+    }
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+    const container = document.querySelector('.add-dropdown-container');
+    if (container && !container.contains(event.target)) {
+        const menu = document.getElementById('addDropdownMenu');
+        const btn = document.querySelector('.dropdown-btn');
+        if (menu && menu.classList.contains('active')) {
+            menu.classList.remove('active');
+            btn?.classList.remove('active');
+        }
+    }
+});
+</script>
 </html>

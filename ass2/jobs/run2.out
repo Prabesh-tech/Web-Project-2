@@ -1,0 +1,17 @@
+PHPUnit 10.5.63 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.2.31 with Xdebug 3.5.3
+Configuration: /var/www/html/phpunit.xml
+
+................                                                  16 / 16 (100%)
+
+Time: 00:04.593, Memory: 14.00 MB
+
+There was 1 PHPUnit test runner warning:
+
+1) Class BaseTestCase declared in /var/www/html/tests/feature/BaseTestCase.php is abstract
+
+OK, but there were issues!
+Tests: 16, Assertions: 60, PHPUnit Warnings: 1, PHPUnit Deprecations: 1.
+
+Generating code coverage report in HTML format ... done [00:05.642]

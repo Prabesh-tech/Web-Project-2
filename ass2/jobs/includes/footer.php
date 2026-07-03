@@ -1,8 +1,5 @@
     <footer class="footer">
         <div class="container">
-            <p>&copy; Prabesh Job 2024</p>
+            <p>&copy; Prabesh's Jobs <?php echo date('Y'); ?></p>
         </div>
     </footer>
-</main>
-</body>
-</html>

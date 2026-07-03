@@ -1,0 +1,223 @@
+/* ==================== UNIVERSAL TEXT VISIBILITY FIX ==================== */
+
+/* LIGHT BACKGROUND SECTIONS - Make main text BLACK for maximum visibility */
+.about-section,
+.contact-section {
+    background: #f8fbff;
+}
+
+.about-section h1,
+.about-section h2,
+.about-section h3,
+.about-section h4,
+.about-section h5,
+.about-section h6,
+.about-section p,
+.about-section li,
+.about-section .about-copy .eyebrow,
+.contact-section h1,
+.contact-section h2,
+.contact-section h3,
+.contact-section h4,
+.contact-section h5,
+.contact-section h6,
+.contact-section p,
+.contact-section li {
+    color: #000000 !important;
+    font-weight: 600 !important;
+}
+
+/* Ensure about/contact paragraphs and feature card text are black (only in light sections) */
+.about-section .about-copy p,
+.contact-section .contact-info p,
+.about-section .feature-card p {
+    color: #000000 !important;
+    font-weight: 600 !important;
+}
+
+/* Preserve button and primary link colors in light sections */
+.about-section .btn-secondary,
+.about-section .btn-primary,
+.contact-section .btn-secondary,
+.contact-section .btn-primary {
+    color: #ffffff !important;
+}
+
+.about-section a:not(.btn-secondary):not(.btn-primary),
+.contact-section a:not(.btn-secondary):not(.btn-primary) {
+    color: #0f62fe !important;
+    font-weight: 600 !important;
+}
+
+.about-section a:hover:not(.btn-secondary):not(.btn-primary),
+.contact-section a:hover:not(.btn-secondary):not(.btn-primary) {
+    color: #003db3 !important;
+}
+
+/* List items */
+.about-section li,
+.contact-section li {
+    color: #000000 !important;
+}
+
+/* Category/Brand bar */
+.brand-bar {
+    color: #ddd;
+}
+
+.brand-label {
+    color: #8f8f8f;
+}
+
+.brand-chip {
+    color: #ddd;
+}
+
+/* Training section - dark background */
+.training-section {
+    color: #d1d5db;
+}
+
+.training-section h1,
+.training-section h2,
+.training-section h3,
+.training-card h3 {
+    color: #ffffff;
+    font-weight: 800;
+}
+
+.training-section p,
+.training-card p {
+    color: #d1d5db;
+    font-weight: 500;
+}
+
+/* About section eyebrow element (only on light sections) */
+.about-section .about-copy .eyebrow,
+.contact-section .about-copy .eyebrow {
+    color: #000000 !important;
+    font-weight: 700 !important;
+}
+
+/* Detail page text */
+.detail-primary strong {
+    color: #f3f4f6;
+}
+
+.detail-primary em {
+    color: #a0aec0;
+}
+
+.detail-primary ul,
+.detail-primary ol,
+.detail-primary li {
+    color: #d1d5db;
+}
+
+/* Form elements - ensure visibility */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+textarea,
+select {
+    color: #ffffff;
+    background-color: #0f172a;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #94a3b8;
+}
+
+/* Form elements on light backgrounds */
+.contact-form input,
+.contact-form textarea {
+    color: #000000 !important;
+    background-color: #ffffff !important;
+    font-weight: 500 !important;
+}
+
+.contact-form label {
+    color: #000000 !important;
+    font-weight: 700 !important;
+}
+
+/* Modal and overlay text */
+.modal-content,
+.modal-overlay {
+    color: #ffffff;
+}
+
+.modal-content h2 {
+    color: #ffffff;
+}
+
+/* Sidebar card text */
+.sidebar-card {
+    color: #d1d5db;
+}
+
+.sidebar-card h3 {
+    color: #ffffff;
+}
+
+.sidebar-card p {
+    color: #d1d5db;
+}
+
+/* Links */
+a {
+    color: #3b82f6;
+}
+
+a:hover {
+    color: #60a5fa;
+}
+
+/* Light background links */
+.about-section a,
+.contact-section a {
+    color: #0f62fe !important;
+    font-weight: 600 !important;
+}
+
+.about-section a:hover,
+.contact-section a:hover {
+    color: #003db3 !important;
+}
+
+/* Tables */
+table {
+    color: #d1d5db;
+}
+
+th {
+    color: #f3f4f6;
+    background-color: #1a1a1a;
+}
+
+td {
+    color: #d1d5db;
+}
+
+/* Buttons */
+button {
+    color: #ffffff;
+}
+
+/* Code blocks */
+code, pre {
+    color: #a0aec0;
+    background-color: #0f172a;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .training-section h1,
+    .training-section h2,
+    .detail-primary h1,
+    .detail-primary h2 {
+        color: #ffffff;
+    }
+}

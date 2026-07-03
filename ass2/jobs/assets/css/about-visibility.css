@@ -1,0 +1,8 @@
+.about-section .btn-secondary.btn-visible {
+    display: inline-flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    background: #2563eb !important;
+    border: 1px solid #2563eb !important;
+    color: #ffffff !important;
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="vendor/autoload.php" colors="true">
+    <testsuites>
+        <testsuite name="Feature Tests">
+            <file>tests/feature/ApplicationRepoTestCase.php</file>
+            <file>tests/feature/AuthHelperTestCase.php</file>
+            <file>tests/feature/CategoryRepoTestCase.php</file>
+            <file>tests/feature/EnquiryRepoTestCase.php</file>
+            <file>tests/feature/JobSiteComprehensiveTestCase.php</file>
+            <file>tests/feature/UserRepoTestCase.php</file>
+            <file>tests/feature/ControllersCombinedTest.php</file>
+        </testsuite>
+    </testsuites>
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">includes</directory>
+            <directory suffix=".php">controllers</directory>
+            <directory suffix=".php">classes</directory>
+        </include>
+        <exclude>
+            <directory>tests</directory>
+            <directory>vendor</directory>
+        </exclude>
+        <report>
+            <html outputDirectory="coverage-report"/>
+        </report>
+    </coverage>
+    <php>
+        <ini name="error_reporting" value="-1"/>
+        <ini name="display_errors" value="1"/>
+        <ini name="display_startup_errors" value="1"/>
+    </php>
+</phpunit>

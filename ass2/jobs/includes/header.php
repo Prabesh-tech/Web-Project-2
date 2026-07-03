@@ -6,13 +6,15 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once __DIR__ . '/DbConnection.php';
 
 $currentPage = basename($_SERVER['PHP_SELF']);
+$baseDirectory = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+$homeUrl = $baseDirectory === '' ? '/index.php' : $baseDirectory . '/index.php';
 
 /* FETCH CATEGORIES */
 $categories = [];
 try {
     if (isset($pdo)) {
-        $stmt = $pdo->query("SELECT id, name FROM categories ORDER BY name ASC");
-        $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stmt = $pdo->query("SELECT id, name FROM categories ORDER BY CASE WHEN name IN ('Sales & Marketing','Sales/Business Development','Sales','Information Technology','IT – Programming & Development','Human Resource') THEN 0 ELSE 1 END, name ASC");
+            $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 } catch (Exception $e) {
     $categories = [];
@@ -21,124 +23,101 @@ try {
 /* NAV ITEMS */
 $navItems = [
     'Job Categories' => '#',
-    'Services' => '#',
+    'Services' => 'services.php',
     'Blogs' => '#',
 ];
 
-// Admin-only items
-if (isset($_SESSION['user']) && !empty($_SESSION['user']['isAdmin'])) {
-    $navItems['Admin Dashboard'] = 'admin.php';
-    $navItems['Manage Categories'] = 'adminCategories.php';
-    $navItems['Manage Admins']     = 'manageAdmins.php';
+/* PREPARE DATA FOR HEADER VIEW */
+
+// Filter navigation items (exclude dropdowns already shown)
+$navItemsFiltered = [];
+foreach ($navItems as $label => $path) {
+    if (!in_array($label, ['Job Categories', 'Services', 'Blogs'], true)) {
+        $navItemsFiltered[$label] = $path;
+    }
+}
+
+// Check if user is authenticated and determine role-specific access
+$isUserLoggedIn = isset($_SESSION['user']);
+$userName = $isUserLoggedIn ? $_SESSION['user']['username'] : '';
+$userRole = $isUserLoggedIn && isset($_SESSION['user']['role']) ? intval($_SESSION['user']['role']) : null;
+$isEmployerUser = $isUserLoggedIn && $userRole === 1;
+$isAdminUser = $isUserLoggedIn && in_array($userRole, [2, 3], true);
+$isSuperAdmin = $isUserLoggedIn && $userRole === 3;
+$isAdminOrEmployerUser = $isEmployerUser || $isAdminUser;
+
+// Categories list HTML
+$categoriesHTML = '';
+if (!empty($categories)) {
+    foreach ($categories as $category) {
+        $categoryId = intval($category['id']);
+        $categoryName = htmlspecialchars($category['name']);
+        $categoriesHTML .= sprintf('<a href="category.php?id=%d">%s</a>', $categoryId, $categoryName);
+    }
+} else {
+    $categoriesHTML = '<span class="nav-dropdown-empty">No categories available</span>';
+}
+
+// Navigation items HTML
+$navItemsHTML = '';
+foreach ($navItemsFiltered as $label => $path) {
+    $safeLabel = htmlspecialchars($label);
+    $safePath = htmlspecialchars($path);
+    $navItemsHTML .= sprintf('<a href="%s" class="nav-link">%s</a>', $safePath, $safeLabel);
+}
+
+// Button HTML (Add Job plus role-specific dropdown actions)
+$actionButtonHTML = '';
+if ($isUserLoggedIn) {
+    $userId = intval($_SESSION['user']['id']);
+    $dropdownLinksHTML = '';
+    if ($isAdminUser) {
+        $dropdownLinksHTML = '
+                <a href="admin.php" class="dropdown-item">Admin Dashboard</a>
+                <a href="adminCategories.php" class="dropdown-item">Manage Categories</a>
+                <a href="manageUsers.php" class="dropdown-item">Manage Users</a>
+                <a href="editProfile.php" class="dropdown-item">Edit Profile</a>';
+        // Only Super Admin (role 3) can add new Admin accounts
+        if ($isSuperAdmin) {
+            $dropdownLinksHTML .= '\n                <a href="register.php?role=admin" class="dropdown-item">Add Admin</a>';
+        }
+    } elseif ($isEmployerUser) {
+        $dropdownLinksHTML = '
+                <a href="editProfile.php" class="dropdown-item">Edit Profile</a>
+                <a href="profile.php?id=' . $userId . '" class="dropdown-item">My Profile</a>';
+    }
+
+    // Profile Info button for all users
+    $profileInfoItem = sprintf('<a href="profile.php?id=%d" class="dropdown-item">Profile Info</a>', $userId);
+
+    $actionButtonHTML = '<div class="add-dropdown-container">
+            <button type="button" class="btn-addauction dropdown-btn" aria-haspopup="true" aria-expanded="false" onclick="toggleAddDropdown()">More</button>
+            <div id="addDropdownMenu" class="add-dropdown-menu" role="menu">
+                <a href="addJob.php" class="dropdown-item" role="menuitem">Add Job</a>
+                <a href="viewJobs.php" class="dropdown-item" role="menuitem">Job List</a>' .
+                $profileInfoItem .
+                $dropdownLinksHTML .
+            '</div>
+        </div>';
+}
+
+// User section HTML
+$userSectionHTML = '';
+if ($isUserLoggedIn) {
+    $safeUserName = htmlspecialchars($userName);
+    $userSectionHTML = sprintf('<span class="username">Hi, %s</span>', $safeUserName);
+    $userSectionHTML .= '<a href="logout.php" class="btn-logout">Logout</a>';
+} else {
+    $userSectionHTML = '<a href="login.php" class="user-icon" title="Login">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="8" r="4"/>
+        <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+    </svg>
+</a>
+<a href="login.php" class="btn-hero">Login</a>
+<a href="register.php" class="btn-hero outline">Register</a>';
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prabesh Job</title>
-<link rel="stylesheet" href="assets/style.css">
-</head>
-
-<body>
-
-<header class="site-header">
-    <div class="header-inner">
-
-        <!-- LOGO -->
-        <a href="index.php" class="logo">Prabesh Job</a>
-
-        <!-- NAV -->
-        <nav class="main-nav">
-            <div class="nav-dropdown">
-                <button class="nav-link nav-dropdown-toggle" type="button">Job Categories</button>
-                <div class="nav-dropdown-menu nav-dropdown-menu-columns">
-                    <a href="#">Sales & Marketing</a>
-                    <a href="#">Education</a>
-                    <a href="#">General Mgmt</a>
-                    <a href="#">Sales</a>
-                    <a href="#">Customer Service</a>
-                    <a href="#">IT – Programming & Development</a>
-                    <a href="#">Health/Pharma/Biotech/Medical/R&D</a>
-                    <a href="#">Creative / Graphics / Designing</a>
-                    <a href="#">Abroad Study</a>
-                    <a href="#">Advertising</a>
-                    <a href="#">Nursing</a>
-                    <a href="#">Travel And Tourism</a>
-                    <a href="#">Human Resource</a>
-                </div>
-            </div>
-
-            <div class="nav-dropdown">
-                <button class="nav-link nav-dropdown-toggle" type="button">Services</button>
-                <div class="nav-dropdown-menu">
-                    <a href="#">Vacancy Announcement & Management Tools</a>
-                    <a href="#">Recruitment Services</a>
-                    <a href="#">Outsourcing Tools & Services</a>
-                    <a href="#">Human Resource Consulting</a>
-                </div>
-            </div>
-            <a href="#" class="nav-link">Blogs</a>
-            <a href="#about" class="nav-link">About Us</a>
-            <a href="#contact" class="nav-link">Contact Us</a>
-
-            <?php foreach ($navItems as $label => $path):
-                if (in_array($label,['Job Categories','Services','Blogs'], true)) {
-                    continue;
-                }
-            ?>
-                <a href="<?= htmlspecialchars($path) ?>" class="nav-link">
-                    <?= htmlspecialchars($label) ?>
-                </a>
-            <?php endforeach; ?>
-        </nav>
-
-        <!-- PROMINENT ADD JOB BUTTON (normal users only; admins see dashboard) -->
-        <?php if (isset($_SESSION['user'])):
-            $isAdminUser = (!empty($_SESSION['user']['isAdmin']) && in_array(intval($_SESSION['user']['isAdmin']), [1,2], true)) ||
-                           (!empty($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'Super Admin');
-        ?>
-            <?php if ($isAdminUser): ?>
-                <a href="admin.php" class="btn-addauction admin-dashboard">Admin Dashboard</a>
-            <?php else: ?>
-                <a href="jobs/addJob.php" class="btn-addauction">Add Job</a>
-            <?php endif; ?>
-        <?php endif; ?>
-
-        <!-- USER SECTION -->
-        <div class="user-tools">
-
-            <?php if (isset($_SESSION['user'])): ?>
-
-                <span class="username">
-                    Hi, <?= htmlspecialchars($_SESSION['user']['username']) ?>
-                    <?php if (!empty($_SESSION['user']['role'])): ?>
-                        <span class="user-role">(<?= htmlspecialchars($_SESSION['user']['role']) ?>)</span>
-                    <?php endif; ?>
-                </span>
-
-                <a href="logout.php" class="btn-logout">Logout</a>
-
-            <?php else: ?>
-
-                <!-- LOGIN ICON (CLICKABLE) -->
-                <a href="login.php" class="user-icon" title="Login">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="8" r="4"/>
-                        <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-                    </svg>
-                </a>
-
-                <a href="login.php" class="btn-hero">Login</a>
-                <a href="register.php" class="btn-hero outline">Register</a>
-
-            <?php endif; ?>
-
-        </div>
-    </div>
-</header>
-
-<main class="page-body">
+<!-- RENDER HEADER VIEW -->
+<?php require_once __DIR__ . '/../views/header.html.php'; ?>

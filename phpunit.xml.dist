@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="vendor/autoload.php" colors="true" fallbackExitCode="1">
+    <testsuites>
+        <testsuite name="Assignment2 Tests">
+            <directory>ass2/jobs/tests</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <ini name="error_reporting" value="-1"/>
+        <ini name="display_errors" value="1"/>
+        <ini name="display_startup_errors" value="1"/>
+    </php>
+</phpunit>

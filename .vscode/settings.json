@@ -1,3 +1,7 @@
 {
-    "liveServer.settings.port": 5501
+  "problems.exclude": {
+    "**/ass2/jobs/coverage-report/**": true,
+    "**/coverage-report/**": true,
+    "**/Dockerfile": true
+  }
 }

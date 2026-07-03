@@ -6,6 +6,7 @@ services:
     container_name: php_app
     volumes:
       - ./ass2/jobs:/var/www/html
+      - ./vendor:/var/www/html/vendor
     working_dir: /var/www/html
     command: php -S 0.0.0.0:8000 -t /var/www/html
     ports:

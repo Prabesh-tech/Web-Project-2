@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /var/www/html/includes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../_css/bootstrap.min.css?v=10.1.16" rel="stylesheet" type="text/css">
+  <link href="../_css/nv.d3.min.css?v=10.1.16" rel="stylesheet" type="text/css">
+  <link href="../_css/style.css?v=10.1.16" rel="stylesheet" type="text/css">
+  <link href="../_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="../index.html">/var/www/html</a></li>
+         <li class="breadcrumb-item"><a href="index.html">includes</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="usercontroller.php.html#7">UserController</a></td><td class="text-right">68%</td></tr>
+       <tr><td><a href="jobcontroller.php.html#3">JobController</a></td><td class="text-right">69%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="usercontroller.php.html#7">UserController</a></td><td class="text-right">144</td></tr>
+       <tr><td><a href="jobcontroller.php.html#3">JobController</a></td><td class="text-right">114</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="jobcontroller.php.html#122"><abbr title="JobController::getApplicationById">getApplicationById</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="jobcontroller.php.html#129"><abbr title="JobController::updateApplicationStatus">updateApplicationStatus</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="jobcontroller.php.html#221"><abbr title="JobController::getJobRequirements">getJobRequirements</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="usercontroller.php.html#277"><abbr title="UserController::getAdminCount">getAdminCount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="usercontroller.php.html#329"><abbr title="UserController::authenticateWithEmail">authenticateWithEmail</abbr></a></td><td class="text-right">57%</td></tr>
+       <tr><td><a href="usercontroller.php.html#47"><abbr title="UserController::getUserById">getUserById</abbr></a></td><td class="text-right">60%</td></tr>
+       <tr><td><a href="usercontroller.php.html#62"><abbr title="UserController::getUserByUsername">getUserByUsername</abbr></a></td><td class="text-right">60%</td></tr>
+       <tr><td><a href="jobcontroller.php.html#13"><abbr title="JobController::hasColumn">hasColumn</abbr></a></td><td class="text-right">61%</td></tr>
+       <tr><td><a href="usercontroller.php.html#202"><abbr title="UserController::updateUser">updateUser</abbr></a></td><td class="text-right">61%</td></tr>
+       <tr><td><a href="usercontroller.php.html#256"><abbr title="UserController::deleteUser">deleteUser</abbr></a></td><td class="text-right">62%</td></tr>
+       <tr><td><a href="usercontroller.php.html#312"><abbr title="UserController::getUserPasswordHash">getUserPasswordHash</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="usercontroller.php.html#232"><abbr title="UserController::updatePassword">updatePassword</abbr></a></td><td class="text-right">70%</td></tr>
+       <tr><td><a href="usercontroller.php.html#159"><abbr title="UserController::createUser">createUser</abbr></a></td><td class="text-right">71%</td></tr>
+       <tr><td><a href="usercontroller.php.html#292"><abbr title="UserController::authenticate">authenticate</abbr></a></td><td class="text-right">71%</td></tr>
+       <tr><td><a href="usercontroller.php.html#78"><abbr title="UserController::getUserApplications">getUserApplications</abbr></a></td><td class="text-right">73%</td></tr>
+       <tr><td><a href="jobcontroller.php.html#182"><abbr title="JobController::setJobArchived">setJobArchived</abbr></a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="usercontroller.php.html#24"><abbr title="UserController::getAllUsers">getAllUsers</abbr></a></td><td class="text-right">77%</td></tr>
+       <tr><td><a href="usercontroller.php.html#134"><abbr title="UserController::getUserCount">getUserCount</abbr></a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="jobcontroller.php.html#105"><abbr title="JobController::getApplicationsForJob">getApplicationsForJob</abbr></a></td><td class="text-right">81%</td></tr>
+       <tr><td><a href="usercontroller.php.html#107"><abbr title="UserController::searchUsers">searchUsers</abbr></a></td><td class="text-right">84%</td></tr>
+       <tr><td><a href="jobcontroller.php.html#140"><abbr title="JobController::createJob">createJob</abbr></a></td><td class="text-right">85%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="jobcontroller.php.html#221"><abbr title="JobController::getJobRequirements">getJobRequirements</abbr></a></td><td class="text-right">90</td></tr>
+       <tr><td><a href="usercontroller.php.html#159"><abbr title="UserController::createUser">createUser</abbr></a></td><td class="text-right">10</td></tr>
+       <tr><td><a href="usercontroller.php.html#329"><abbr title="UserController::authenticateWithEmail">authenticateWithEmail</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="jobcontroller.php.html#13"><abbr title="JobController::hasColumn">hasColumn</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="jobcontroller.php.html#122"><abbr title="JobController::getApplicationById">getApplicationById</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="jobcontroller.php.html#129"><abbr title="JobController::updateApplicationStatus">updateApplicationStatus</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="usercontroller.php.html#277"><abbr title="UserController::getAdminCount">getAdminCount</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="usercontroller.php.html#78"><abbr title="UserController::getUserApplications">getUserApplications</abbr></a></td><td class="text-right">5</td></tr>
+       <tr><td><a href="usercontroller.php.html#202"><abbr title="UserController::updateUser">updateUser</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="usercontroller.php.html#232"><abbr title="UserController::updatePassword">updatePassword</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="usercontroller.php.html#292"><abbr title="UserController::authenticate">authenticate</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="usercontroller.php.html#134"><abbr title="UserController::getUserCount">getUserCount</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="usercontroller.php.html#256"><abbr title="UserController::deleteUser">deleteUser</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="jobcontroller.php.html#182"><abbr title="JobController::setJobArchived">setJobArchived</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="usercontroller.php.html#24"><abbr title="UserController::getAllUsers">getAllUsers</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="jobcontroller.php.html#105"><abbr title="JobController::getApplicationsForJob">getApplicationsForJob</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="jobcontroller.php.html#140"><abbr title="JobController::createJob">createJob</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="usercontroller.php.html#107"><abbr title="UserController::searchUsers">searchUsers</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="usercontroller.php.html#47"><abbr title="UserController::getUserById">getUserById</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="usercontroller.php.html#62"><abbr title="UserController::getUserByUsername">getUserByUsername</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="usercontroller.php.html#312"><abbr title="UserController::getUserPasswordHash">getUserPasswordHash</abbr></a></td><td class="text-right">2</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 10.1.16</a> using <a href="https://www.php.net/" target="_top">PHP 8.2.32</a> and <a href="https://phpunit.de/">PHPUnit 10.5.63</a> at Fri Jul 3 9:04:29 UTC 2026.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="../_js/jquery.min.js?v=10.1.16" type="text/javascript"></script>
+  <script src="../_js/d3.min.js?v=10.1.16" type="text/javascript"></script>
+  <script src="../_js/nv.d3.min.js?v=10.1.16" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([0,0,0,0,0,0,0,2,0,0,0,0], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([4,0,0,0,0,0,1,6,6,4,1,7], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[69.91869918699187,49,"<a href=\"jobcontroller.php.html#3\">JobController<\/a>"],[68.08510638297872,53,"<a href=\"usercontroller.php.html#7\">UserController<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[100,1,"<a href=\"jobcontroller.php.html#8\">JobController::__construct<\/a>"],[61.53846153846154,5,"<a href=\"jobcontroller.php.html#13\">JobController::hasColumn<\/a>"],[90.625,13,"<a href=\"jobcontroller.php.html#35\">JobController::getAllJobs<\/a>"],[100,2,"<a href=\"jobcontroller.php.html#91\">JobController::getJobById<\/a>"],[81.81818181818183,3,"<a href=\"jobcontroller.php.html#105\">JobController::getApplicationsForJob<\/a>"],[0,2,"<a href=\"jobcontroller.php.html#122\">JobController::getApplicationById<\/a>"],[0,2,"<a href=\"jobcontroller.php.html#129\">JobController::updateApplicationStatus<\/a>"],[85.71428571428571,3,"<a href=\"jobcontroller.php.html#140\">JobController::createJob<\/a>"],[100,1,"<a href=\"jobcontroller.php.html#165\">JobController::updateJob<\/a>"],[100,1,"<a href=\"jobcontroller.php.html#176\">JobController::deleteJob<\/a>"],[75,3,"<a href=\"jobcontroller.php.html#182\">JobController::setJobArchived<\/a>"],[100,3,"<a href=\"jobcontroller.php.html#192\">JobController::searchJobs<\/a>"],[100,1,"<a href=\"jobcontroller.php.html#216\">JobController::getJobsByCategory<\/a>"],[0,9,"<a href=\"jobcontroller.php.html#221\">JobController::getJobRequirements<\/a>"],[100,1,"<a href=\"usercontroller.php.html#14\">UserController::__construct<\/a>"],[77.77777777777779,3,"<a href=\"usercontroller.php.html#24\">UserController::getAllUsers<\/a>"],[60,2,"<a href=\"usercontroller.php.html#47\">UserController::getUserById<\/a>"],[60,2,"<a href=\"usercontroller.php.html#62\">UserController::getUserByUsername<\/a>"],[73.33333333333333,5,"<a href=\"usercontroller.php.html#78\">UserController::getUserApplications<\/a>"],[84.61538461538461,3,"<a href=\"usercontroller.php.html#107\">UserController::searchUsers<\/a>"],[80,4,"<a href=\"usercontroller.php.html#134\">UserController::getUserCount<\/a>"],[71.42857142857143,9,"<a href=\"usercontroller.php.html#159\">UserController::createUser<\/a>"],[61.53846153846154,4,"<a href=\"usercontroller.php.html#202\">UserController::updateUser<\/a>"],[70,4,"<a href=\"usercontroller.php.html#232\">UserController::updatePassword<\/a>"],[62.5,3,"<a href=\"usercontroller.php.html#256\">UserController::deleteUser<\/a>"],[0,2,"<a href=\"usercontroller.php.html#277\">UserController::getAdminCount<\/a>"],[71.42857142857143,4,"<a href=\"usercontroller.php.html#292\">UserController::authenticate<\/a>"],[66.66666666666666,2,"<a href=\"usercontroller.php.html#312\">UserController::getUserPasswordHash<\/a>"],[57.14285714285714,5,"<a href=\"usercontroller.php.html#329\">UserController::authenticateWithEmail<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>
