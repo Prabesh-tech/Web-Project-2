@@ -1,12 +1,4 @@
--- ============================================
--- ROLE DEFINITIONS:
--- 0 = Jobseeker (can browse jobs, apply, save)
--- 1 = Employer (can post jobs, manage company)
--- 2 = Admin (manage content, users, moderate)
--- 3 = SuperAdmin (full system access)
--- ============================================
 
--- Create database if not exists
 DROP DATABASE IF EXISTS Assignment2;
 CREATE DATABASE IF NOT EXISTS Assignment2;
 USE Assignment2;
